@@ -1,3 +1,8 @@
+if(!require(tidyverse)){
+        install.packages("tidyverse")
+        library(tidyverse)
+}
+
 read.csv("household_power_consumption.txt", sep = ";", na.strings = c("?")) %>%
         tbl_df() %>%
         mutate(., Date = dmy(as.character(.$Date))) %>%

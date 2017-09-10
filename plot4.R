@@ -1,3 +1,15 @@
+#checks for required packages
+if(!require(tidyverse)){
+        install.packages("tidyverse")
+        library(tidyverse)
+}
+
+if(!require(lubridate)){
+        install.packages("lubridate")
+        library(lubridate)
+}
+
+#Reads file and prepares it
 read.csv("household_power_consumption.txt", sep = ";", na.strings = c("?")) %>%
         tbl_df() %>%
         mutate(., Date = dmy(as.character(.$Date))) %>%
@@ -5,9 +17,10 @@ read.csv("household_power_consumption.txt", sep = ";", na.strings = c("?")) %>%
         mutate(datetime = paste(Date, Time)) %>%
         mutate(datetime = ymd_hms(.$datetime)) -> raw_data
 
+#produces png output
 png(filename = 'plot4.png', width = 480, height = 480, bg = "transparent")
 
-par(mfrow = c(2,2))
+par(mfrow = c(2,2)) #sets desired stacking order
 
 with(raw_data, plot(datetime, Global_active_power, 
                     type = "l",
